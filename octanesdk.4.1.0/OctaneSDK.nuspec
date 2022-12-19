@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>OctaneSDK</id>
+    <version>4.1.0</version>
+    <title>Octane SDK</title>
+    <authors>Impinj</authors>
+    <owners>Impinj</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://support.impinj.com/hc/en-us/articles/115000472090-Software-End-User-License-Agreement</licenseUrl>
+    <projectUrl>https://support.impinj.com/</projectUrl>
+    <iconUrl>https://www.gravatar.com/avatar/f8dc7b56da6c529a7fb60ec48bf535e7</iconUrl>
+    <description>This is the Octane SDK development library for Impinj RAIN RFID readers and gateways.</description>
+    <copyright>Copyright (c) Impinj, Inc.</copyright>
+    <tags>llrp octane sdk octanesdk rain rfid rainrfid speedway</tags>
+    <dependencies>
+      <group targetFramework="net5.0">
+        <dependency id="libltknet-sdk" version="[11.2.0]" />
+        <dependency id="SSH.NET" version="2020.0.1" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="libltknet-sdk" version="[11.2.0]" />
+        <dependency id="SSH.NET" version="2020.0.1" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

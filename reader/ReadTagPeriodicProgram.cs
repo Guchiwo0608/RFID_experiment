@@ -116,6 +116,7 @@ namespace OctaneSdkExamples
                     Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                     using (StreamWriter sw = new StreamWriter(csvFile, true, Encoding.GetEncoding("Shift_JIS")))
                     {
+
                         if (!isFileInitialized)
                         {
                             FileClear();
@@ -125,7 +126,7 @@ namespace OctaneSdkExamples
                         {
                             if (!isColumnImported)
                             {
-                                File.WriteAllLines(csvFile, new List<String>() { "Tag ID,RSSI,Phase,Frequency,Antenna No,Created At" }, Encoding.GetEncoding("shift-jis"));
+                                File.WriteAllLines(csvFile, new List<String>() { "Tag ID,RSSI,Phase,Frequency,Antenna No.,Created At" }, Encoding.GetEncoding("shift-jis"));
                                 isColumnImported = true;
                             }
                             else
@@ -133,29 +134,26 @@ namespace OctaneSdkExamples
                                 foreach (Tag tag in report)
                                 {
                                     // isInfoGot = true;
-                                    if (tag.Epc.ToString().Contains("2000 0200 2000 0120 0000"))
-                                    {
-                                        // sw.WriteLine(
-                                        //     string.Format("{0}, {1}, {2}, {3}, {4}, {5}",
-                                        //     tag.Epc,
-                                        //     tag.PeakRssiInDbm,
-                                        //     tag.PhaseAngleInRadians,
-                                        //     tag.ChannelInMhz,
-                                        //     tag.AntennaPortNumber,
-                                        //     tag.LastSeenTime.LocalDateTime.ToString()
-                                        //     )
-                                        // );
-                                        // Console.WriteLine(
-                                        //     string.Format("{0}, {1}, {2}, {3}, {4}, {5}",
-                                        //     tag.Epc,
-                                        //     tag.PeakRssiInDbm,
-                                        //     tag.PhaseAngleInRadians,
-                                        //     tag.ChannelInMhz,
-                                        //     tag.AntennaPortNumber,
-                                        //     tag.LastSeenTime.LocalDateTime.ToString()
-                                        //     )
-                                        // );
-                                    }
+                                    sw.WriteLine(
+                                        string.Format("{0}, {1}, {2}, {3}, {4}, {5}",
+                                        tag.Epc,
+                                        tag.PeakRssiInDbm,
+                                        tag.PhaseAngleInRadians,
+                                        tag.ChannelInMhz,
+                                        tag.AntennaPortNumber,
+                                        tag.LastSeenTime.LocalDateTime.ToString()
+                                        )
+                                    );
+                                    Console.WriteLine(
+                                        string.Format("{0}, {1}, {2}, {3}, {4}, {5}",
+                                        tag.Epc,
+                                        tag.PeakRssiInDbm,
+                                        tag.PhaseAngleInRadians,
+                                        tag.ChannelInMhz,
+                                        tag.AntennaPortNumber,
+                                        tag.LastSeenTime.LocalDateTime.ToString()
+                                        )
+                                    );
                                 }
                             }
                         }
