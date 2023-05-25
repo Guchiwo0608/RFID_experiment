@@ -4,11 +4,10 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-using System;
+
 using System.Text;
-using System.IO;
 using Impinj.OctaneSdk;
-using System.Collections.Generic;
+using OctaneSdk.Impinj.OctaneSdk;
 
 namespace OctaneSdkExamples
 {
@@ -16,10 +15,9 @@ namespace OctaneSdkExamples
     {
         // Create an instance of the ImpinjReader class.
         static ImpinjReader reader = new ImpinjReader();
-        static bool isColumnImported = false;
-        static bool isFileInitialized = false;
-        static bool isInfoGot = false;
+        // static bool isInfoGot = false;
         static String csvFile = "";
+        static int readNumber = 0;
 
         private static void Main(string[] args)
         {
@@ -36,6 +34,13 @@ namespace OctaneSdkExamples
                 csvFile = @args[1];
                 string hostname = args[0];
                 reader.Connect(hostname);
+
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                using (StreamWriter sw = new StreamWriter(csvFile, true, Encoding.GetEncoding("Shift_JIS")))
+                {
+                    FileClear();
+                    File.WriteAllLines(csvFile, new List<String>() { "Tag ID,RSSI,Phase,Frequency,Antenna No.,Data Number" }, Encoding.GetEncoding("shift-jis"));
+                }
 
                 // Get the default settings
                 // We'll use these as a starting point
@@ -58,19 +63,116 @@ namespace OctaneSdkExamples
                 settings.Report.IncludeDopplerFrequency = true;
                 settings.Report.IncludeChannel = true;
                 settings.Antennas.TxPowerMax = true;
+                settings.Antennas.RxSensitivityMax = true;
 
                 settings.TxFrequenciesInMhz.Add(920.4);
                 settings.Antennas.RxSensitivityMax = true;
-                // settings.Antennas.TxPowerInDbm = 10.0;
+
+                settings.Antennas.DisableAll();
+
+                settings.Antennas.GetAntenna(1).IsEnabled = true;
+                settings.Antennas.GetAntenna(1).MaxTxPower = true;
+                settings.Antennas.GetAntenna(1).MaxRxSensitivity = true;
+                settings.Antennas.GetAntenna(2).IsEnabled = true;
+                settings.Antennas.GetAntenna(2).MaxTxPower = true;
+                settings.Antennas.GetAntenna(2).MaxRxSensitivity = true;
+                // settings.Antennas.GetAntenna(3).IsEnabled = true;
+                // settings.Antennas.GetAntenna(3).MaxTxPower = true;
+                // settings.Antennas.GetAntenna(3).MaxRxSensitivity = true;
+                // settings.Antennas.GetAntenna(4).IsEnabled = true;
+                // settings.Antennas.GetAntenna(4).MaxTxPower = true;
+                // settings.Antennas.GetAntenna(4).MaxRxSensitivity = true;
+
+                // Tell the reader not to send tag reports.
+                // We will ask for them.
+                // settings.Report.Mode = ReportMode.WaitForQuery;
+
+                settings.RfMode = 1002;
+                settings.SearchMode = SearchMode.ReaderSelected;
+                settings.Session = 3;
+                settings.TagPopulationEstimate = 1;
 
                 // Send a tag report every time the reader stops (period is over).
                 settings.Report.Mode = ReportMode.BatchAfterStop;
 
                 // Reading tags for 5 seconds every 10 seconds
                 settings.AutoStart.Mode = AutoStartMode.Periodic;
-                settings.AutoStart.PeriodInMs = 1000;
+                settings.AutoStart.PeriodInMs = 300;
                 settings.AutoStop.Mode = AutoStopMode.Duration;
-                settings.AutoStop.DurationInMs = 1000;
+                settings.AutoStop.DurationInMs = 150;
+
+                settings.Filters.Mode = TagFilterMode.UseTagSelectFilters;
+
+                // TagSelectFilter tagSelectFilter1 = new TagSelectFilter
+                // {
+                //     MatchAction = StateUnawareAction.Select,
+                //     NonMatchAction = StateUnawareAction.Unselect,
+                //     TagMask = "E200471081D06023B4E90113",
+                //     BitPointer = BitPointers.Epc + 0,
+                //     MemoryBank = MemoryBank.Epc
+                // };
+                // settings.Filters.TagSelectFilters.Add(tagSelectFilter1);
+                // TagSelectFilter tagSelectFilter2 = new TagSelectFilter
+                // {
+                //     MatchAction = StateUnawareAction.Select,
+                //     NonMatchAction = StateUnawareAction.Unselect,
+                //     TagMask = "E200470FC1906023A8E5010E",
+                //     BitPointer = BitPointers.Epc + 0,
+                //     MemoryBank = MemoryBank.Epc
+                // };
+                // settings.Filters.TagSelectFilters.Add(tagSelectFilter2);
+                // TagSelectFilter tagSelectFilter3 = new TagSelectFilter
+                // {
+                //     MatchAction = StateUnawareAction.Select,
+                //     NonMatchAction = StateUnawareAction.Unselect,
+                //     TagMask = "E200470FC1B06023A8E7010D",
+                //     BitPointer = BitPointers.Epc + 0,
+                //     MemoryBank = MemoryBank.Epc
+                // };
+                // settings.Filters.TagSelectFilters.Add(tagSelectFilter3);
+                // TagSelectFilter tagSelectFilter4 = new TagSelectFilter
+                // {
+                //     MatchAction = StateUnawareAction.Select,
+                //     NonMatchAction = StateUnawareAction.Unselect,
+                //     TagMask = "E200470E7F40602394C0010B",
+                //     BitPointer = BitPointers.Epc + 0,
+                //     MemoryBank = MemoryBank.Epc
+                // };
+                // settings.Filters.TagSelectFilters.Add(tagSelectFilter4);
+                // TagSelectFilter tagSelectFilter5 = new TagSelectFilter
+                // {
+                //     MatchAction = StateUnawareAction.Select,
+                //     NonMatchAction = StateUnawareAction.Unselect,
+                //     TagMask = "E200470FC1C06023A8E8010E",
+                //     BitPointer = BitPointers.Epc + 0,
+                //     MemoryBank = MemoryBank.Epc
+                // };
+                // settings.Filters.TagSelectFilters.Add(tagSelectFilter5);
+                // TagSelectFilter tagSelectFilter6 = new TagSelectFilter
+                // {
+                //     MatchAction = StateUnawareAction.Select,
+                //     NonMatchAction = StateUnawareAction.Unselect,
+                //     TagMask = "E200470F45F06023A12B010A",
+                //     BitPointer = BitPointers.Epc + 0,
+                //     MemoryBank = MemoryBank.Epc
+                // };
+                // settings.Filters.TagSelectFilters.Add(tagSelectFilter6);
+                TagSelectFilter tagSelectFilter6 = new TagSelectFilter
+                {
+                    MatchAction = StateUnawareAction.Select,
+                    NonMatchAction = StateUnawareAction.Unselect,
+                    TagMask = "E200470FC1A06023A8E6010F",
+                    BitPointer = BitPointers.Epc + 0,
+                    MemoryBank = MemoryBank.Epc
+                };
+                settings.Filters.TagSelectFilters.Add(tagSelectFilter6);
+
+                // settings.Filters.TagFilter1.MemoryBank = MemoryBank.Epc;
+                // settings.Filters.TagFilter1.BitPointer = BitPointers.Epc + 0;
+                // settings.Filters.TagFilter1.TagMask = "E200470FC1C06023A8E8010E";
+                // settings.Filters.TagFilter2.MemoryBank = MemoryBank.Epc;
+                // settings.Filters.TagFilter2.BitPointer = BitPointers.Epc + 0;
+                // settings.Filters.TagFilter2.TagMask = "E200470F45F06023A12B010A";
 
                 // Apply the newly modified settings.
                 reader.ApplySettings(settings);
@@ -80,8 +182,24 @@ namespace OctaneSdkExamples
                 // when tags reports are available.
                 reader.TagsReported += OnTagsReported;
 
+                // Assign an event handler that will
+                // be called when the tag report buffer is almost full.
+                // reader.ReportBufferWarning += OnReportBufferWarning;
+
+                // Assign an event handler that will
+                // be called when the tag report buffer has overflowed.
+                // reader.ReportBufferOverflow += OnReportBufferOverflow;
+
                 // Wait for the user to press enter.
                 Console.WriteLine("host:{0} is connected.", hostname);
+
+                // Wait a while.
+                // Console.WriteLine("Waiting while the reader reads tags.");
+                // Thread.Sleep(5000);
+
+                // Ask for the tag reports.
+                // reader.QueryTags();
+
                 Console.WriteLine("Press enter to exit.");
                 Console.ReadLine();
 
@@ -103,60 +221,85 @@ namespace OctaneSdkExamples
             }
         }
 
+        static void OnReportBufferOverflow(ImpinjReader reader, ReportBufferOverflowEvent e)
+        {
+            Console.WriteLine("The tag report buffer has overflowed!");
+        }
+
+        static void OnReportBufferWarning(ImpinjReader reader, ReportBufferWarningEvent e)
+        {
+            Console.WriteLine("The tag report buffer is {0}% full!", e.PercentFull);
+        }
+
         static void OnTagsReported(ImpinjReader sender, TagReport report)
         {
+
+            Dictionary<ushort, Tag> antennasReported = new Dictionary<ushort, Tag>();
+            ushort key;
+
             // This event handler is called asynchronously 
             // when tag reports are available.
             // Loop through each tag in the report 
             // and print the data.
             try
             {
-                if (!isInfoGot)
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                using (StreamWriter sw = new StreamWriter(csvFile, true, Encoding.GetEncoding("Shift_JIS")))
                 {
-                    Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-                    using (StreamWriter sw = new StreamWriter(csvFile, true, Encoding.GetEncoding("Shift_JIS")))
+                    Boolean isIncludeAntenna1 = false;
+                    Boolean isIncludeAntenna2 = false;
+                    Boolean isIncludeAntenna3 = true;
+                    Boolean isIncludeAntenna4 = true;
+                    foreach (Tag tag in report)
                     {
-
-                        if (!isFileInitialized)
+                        if (tag.AntennaPortNumber == 1)
                         {
-                            FileClear();
-                            isFileInitialized = true;
+                            isIncludeAntenna1 = true;
                         }
-                        else
+                        if (tag.AntennaPortNumber == 2)
                         {
-                            if (!isColumnImported)
+                            isIncludeAntenna2 = true;
+                        }
+                        // if (tag.AntennaPortNumber == 3)
+                        // {
+                        //     isIncludeAntenna3 = true;
+                        // }
+                        // if (tag.AntennaPortNumber == 4)
+                        // {
+                        //     isIncludeAntenna4 = true;
+                        // }
+                    }
+                    if ((isIncludeAntenna1 && isIncludeAntenna2 && isIncludeAntenna3 && isIncludeAntenna4))
+                    {
+                        foreach (Tag tag in report)
+                        {
+                            key = tag.AntennaPortNumber;
+                            if (!antennasReported.ContainsKey(key))
                             {
-                                File.WriteAllLines(csvFile, new List<String>() { "Tag ID,RSSI,Phase,Frequency,Antenna No.,Created At" }, Encoding.GetEncoding("shift-jis"));
-                                isColumnImported = true;
-                            }
-                            else
-                            {
-                                foreach (Tag tag in report)
-                                {
-                                    // isInfoGot = true;
-                                    sw.WriteLine(
-                                        string.Format("{0}, {1}, {2}, {3}, {4}, {5}",
-                                        tag.Epc,
-                                        tag.PeakRssiInDbm,
-                                        tag.PhaseAngleInRadians,
-                                        tag.ChannelInMhz,
-                                        tag.AntennaPortNumber,
-                                        tag.LastSeenTime.LocalDateTime.ToString()
-                                        )
-                                    );
-                                    Console.WriteLine(
-                                        string.Format("{0}, {1}, {2}, {3}, {4}, {5}",
-                                        tag.Epc,
-                                        tag.PeakRssiInDbm,
-                                        tag.PhaseAngleInRadians,
-                                        tag.ChannelInMhz,
-                                        tag.AntennaPortNumber,
-                                        tag.LastSeenTime.LocalDateTime.ToString()
-                                        )
-                                    );
-                                }
+                                sw.WriteLine(
+                                    string.Format("{0}, {1}, {2}, {3}, {4}, {5}",
+                                    tag.Epc,
+                                    tag.PeakRssiInDbm,
+                                    tag.PhaseAngleInRadians,
+                                    tag.ChannelInMhz,
+                                    tag.AntennaPortNumber,
+                                    readNumber
+                                    )
+                                );
+                                Console.WriteLine(
+                                    string.Format("{0}, {1}, {2}, {3}, {4}, {5}",
+                                    tag.Epc,
+                                    tag.PeakRssiInDbm,
+                                    tag.PhaseAngleInRadians,
+                                    tag.ChannelInMhz,
+                                    tag.AntennaPortNumber,
+                                    readNumber
+                                    )
+                                );
+                                antennasReported.Add(key, tag);
                             }
                         }
+                        readNumber += 1;
                     }
                 }
             }

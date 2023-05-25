@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
-  <Relationship Type="http://schemas.microsoft.com/packaging/2010/07/manifest" Target="/OctaneSDK.nuspec" Id="RA7837D3178669872" />
-  <Relationship Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="/package/services/metadata/core-properties/6bd2a0bc8a27450584fd266a4fc99cad.psmdcp" Id="R24B9F8CB7FC3B67C" />
-</Relationships>
