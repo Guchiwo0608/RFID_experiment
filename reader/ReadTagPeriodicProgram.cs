@@ -66,6 +66,7 @@ namespace OctaneSdkExamples
                 settings.Antennas.RxSensitivityMax = true;
 
                 settings.TxFrequenciesInMhz.Add(920.4);
+
                 settings.Antennas.RxSensitivityMax = true;
 
                 settings.Antennas.DisableAll();

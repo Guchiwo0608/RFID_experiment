@@ -1,0 +1,10 @@
+{
+    "java.project.sourcePaths": ["src"],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "/Users/guchiwo/Docs/RFID/Impinj_SDK_Java_v4.0.0/lib/OctaneSDKJava-4.0.0.0-jar-with-dependencies.jar",
+        "/Users/guchiwo/Docs/RFID/Impinj_SDK_Java_v4.0.0/lib/OctaneSDKJava-4.0.0.0-sdk-samples.jar",
+        "/Users/guchiwo/Docs/RFID/Impinj_SDK_Java_v4.0.0/lib/OctaneSDKJava-4.0.0.0.jar"
+    ]
+}

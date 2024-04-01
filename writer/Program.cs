@@ -140,6 +140,7 @@ namespace OctaneSdkExamples
                 // Enable antenna #1. Disable all others.
                 settings.Antennas.DisableAll();
                 settings.Antennas.GetAntenna(1).IsEnabled = true;
+                settings.RfMode = 0;
 
                 // Apply the newly modified settings.
                 reader.ApplySettings(settings);
