@@ -1,28 +1,35 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "java",
-            "name": "ReadTagsPeriodicTrigger",
-            "request": "launch",
-            "mainClass": "ReadTagsPeriodicTrigger",
-            "projectName": "experiment_ea81f060"
-        },
-        {
-            "name": ".NET Core Launch (console)",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/net6.0/experiment.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}",
-            "console": "internalConsole",
-            "stopAtEntry": false
-        },
-        {
-            "name": ".NET Core Attach",
-            "type": "coreclr",
-            "request": "attach"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "ReadTagsPeriodicTrigger",
+      "request": "launch",
+      "mainClass": "ReadTagsPeriodicTrigger",
+      "projectName": "experiment_14be37fb"
+    },
+    {
+      "type": "java",
+      "name": "ReadTagsPeriodicTrigger",
+      "request": "launch",
+      "mainClass": "ReadTagsPeriodicTrigger",
+      "projectName": "experiment_ea81f060"
+    },
+    {
+      "name": ".NET Core Launch (console)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/bin/Debug/net6.0/experiment.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "stopAtEntry": false
+    },
+    {
+      "name": ".NET Core Attach",
+      "type": "coreclr",
+      "request": "attach"
+    }
+  ]
 }
