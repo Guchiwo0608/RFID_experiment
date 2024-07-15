@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "ReadTagsGpiTrigger",
+      "request": "launch",
+      "mainClass": "com.example.sdksamples.ReadTagsGpiTrigger",
+      "projectName": "experiment_14be37fb"
+    },
+    {
+      "type": "java",
       "name": "ReadTagsPeriodicTrigger",
       "request": "launch",
       "mainClass": "ReadTagsPeriodicTrigger",
