@@ -1,2 +1,6 @@
 *.csv
 .vscode
+/Ipopt
+build
+dist
+/env
