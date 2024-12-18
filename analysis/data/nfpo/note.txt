@@ -1,0 +1,6 @@
+These data is the result of measurement for near-field phase optimization.
+
+The vertical distance between antenna and tags is 1.3m.
+A tag was moved and the measurement data will be used for localization using NFPO method with tag array.
+The data is collected at each 0.1m space from 2.0m to 0m.
+Max Throughput is used for these communications' signal encoder.

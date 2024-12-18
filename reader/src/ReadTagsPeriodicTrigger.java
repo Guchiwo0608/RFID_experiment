@@ -68,9 +68,9 @@ public class ReadTagsPeriodicTrigger {
             // settings.getAutoStop().setDurationInMs(500);
 
             // settings.getTxFrequenciesInMhz().add(916.8);
-            // settings.getTxFrequenciesInMhz().add(918.0);
+            settings.getTxFrequenciesInMhz().add(918.0);
             // settings.getTxFrequenciesInMhz().add(919.2);
-            settings.getTxFrequenciesInMhz().add(920.4);
+            // settings.getTxFrequenciesInMhz().add(920.4);
 
             AntennaConfigGroup antennaConfigGroup = settings.getAntennas();
             short[] antennaPortNumbers = Properties.antennaPortNumbers;
@@ -79,10 +79,10 @@ public class ReadTagsPeriodicTrigger {
             antennaConfigGroup.enableById(antennaPortNumbers);
 
             antennaConfigGroup.setIsMaxRxSensitivity(true);
-            // antennaConfigGroup.setTxPowerinDbm(10);
+            // antennaConfigGroup.setTxPowerinDbm(20);
             antennaConfigGroup.setIsMaxTxPower(true);
 
-            settings.setRfMode(3);
+            settings.setRfMode(0);
             settings.setSearchMode(SearchMode.DualTarget);
             settings.setSession(1);
 
