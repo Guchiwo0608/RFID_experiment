@@ -2,6 +2,8 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 // import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +17,7 @@ import com.impinj.octane.TagReportListener;
 
 public class ReportListener implements TagReportListener {
 
-    int samplingNumber = 0;
+    final List<Integer> samplingNumberList = new ArrayList<>(Collections.nCopies(Properties.maxAntennas, 0));
 
     @Override
     public void onTagReported(ImpinjReader reader, TagReport report) {
@@ -34,7 +36,8 @@ public class ReportListener implements TagReportListener {
                 final int tagNumber = Properties.tagNumber;
                 // String rawTimestamp = t.getFirstSeenTime().toString();
                 // Date timestamp = new Date(Long.valueOf(rawTimestamp.substring(0, 13)));
-                final Map<String, Double> actualCoordinate = Properties.actualCoordinate;
+                final Double x = Properties.x;
+                int antennaNumber = t.getAntennaPortNumber();
                 final Map<String, String> tagReport = new HashMap<String, String>() {
                     {
                         put("frequency", String.valueOf(t.getChannelInMhz()));
@@ -44,20 +47,19 @@ public class ReportListener implements TagReportListener {
                         put("rssi", String.valueOf(t.getPeakRssiInDbm()));
                         put("phase", String.valueOf(t.getPhaseAngleInRadians()));
                         put("doppler", String.valueOf(t.getRfDopplerFrequency()));
-                        put("samplingNumber", String.valueOf(samplingNumber));
+                        put("samplingNumber", String.valueOf(samplingNumberList.get(antennaNumber - 1)));
                         put("tagNumber", String.valueOf(tagNumber));
                     }
                 };
-                if (samplingNumber < 100) {
+                if (samplingNumberList.get(antennaNumber - 1) < 100) {
                     System.out.print("tid: " + tid + ", ");
                     System.out.print("tagNumber: " + tagReport.get("tagNumber") + ", ");
                     System.out.print("frequency: " + tagReport.get("frequency") + ", ");
                     System.out.print("antennaNumber: " + tagReport.get("antennaNumber") + ", ");
                     System.out.print("phase: " + tagReport.get("phase") + ", ");
                     System.out.print("rssi: " + tagReport.get("rssi") + ", ");
-                    System.out.print("x:" + actualCoordinate.get("x") + ", ");
-                    System.out.print("y:" + actualCoordinate.get("y") + ", ");
-                    System.out.println("samplingNumber: " + samplingNumber);
+                    System.out.print("angle:" + x + ", ");
+                    System.out.println("samplingNumber: " + samplingNumberList.get(antennaNumber - 1));
                     pw.print(tid);
                     pw.print(",");
                     pw.print(tagReport.get("tagNumber"));
@@ -76,19 +78,20 @@ public class ReportListener implements TagReportListener {
                     pw.print(",");
                     pw.print(tagReport.get("doppler"));
                     pw.print(",");
-                    pw.print(actualCoordinate.get("x"));
-                    pw.print(",");
-                    pw.print(actualCoordinate.get("y"));
+                    pw.print(x);
+                    // pw.print(actualCoordinate.get("x"));
+                    // pw.print(",");
+                    // pw.print(actualCoordinate.get("y"));
                     pw.print(",");
                     pw.print(tagReport.get("samplingNumber"));
                     pw.println();
                     pw.close();
                 }
+                samplingNumberList.set(antennaNumber - 1, samplingNumberList.get(antennaNumber - 1) + 1);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        samplingNumber++;
     }
 }

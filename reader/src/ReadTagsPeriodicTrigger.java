@@ -15,27 +15,6 @@ public class ReadTagsPeriodicTrigger {
 
         try {
 
-            // pw.print("tagId");
-            // pw.print(",");
-            // pw.print("frequency");
-            // pw.print(",");
-
-            // for (int ant = 1; ant < Properties.maxAntennas + 1; ant++) {
-            // pw.print("antenna" + String.valueOf(ant) + ".firstSeenTime");
-            // pw.print(",");
-            // pw.print("antenna" + String.valueOf(ant) + ".LastSeenTime");
-            // pw.print(",");
-            // pw.print("antenna" + String.valueOf(ant) + ".rssi");
-            // pw.print(",");
-            // pw.print("antenna" + String.valueOf(ant) + ".phase");
-            // pw.print(",");
-            // pw.print("antenna" + String.valueOf(ant) + ".doppler");
-            // pw.print(",");
-            // }
-            // pw.print("samplingNumber");
-            // pw.println();
-
-            // pw.close();
             String hostname = Properties.hostname;
 
             if (hostname == null) {
@@ -68,9 +47,9 @@ public class ReadTagsPeriodicTrigger {
             // settings.getAutoStop().setDurationInMs(500);
 
             // settings.getTxFrequenciesInMhz().add(916.8);
-            settings.getTxFrequenciesInMhz().add(918.0);
+            // settings.getTxFrequenciesInMhz().add(918.0);
             // settings.getTxFrequenciesInMhz().add(919.2);
-            // settings.getTxFrequenciesInMhz().add(920.4);
+            settings.getTxFrequenciesInMhz().add(920.4);
 
             AntennaConfigGroup antennaConfigGroup = settings.getAntennas();
             short[] antennaPortNumbers = Properties.antennaPortNumbers;
@@ -79,8 +58,8 @@ public class ReadTagsPeriodicTrigger {
             antennaConfigGroup.enableById(antennaPortNumbers);
 
             antennaConfigGroup.setIsMaxRxSensitivity(true);
-            // antennaConfigGroup.setTxPowerinDbm(20);
-            antennaConfigGroup.setIsMaxTxPower(true);
+            antennaConfigGroup.setTxPowerinDbm(18);
+            // antennaConfigGroup.setIsMaxTxPower(true);
 
             settings.setRfMode(0);
             settings.setSearchMode(SearchMode.DualTarget);
@@ -101,30 +80,6 @@ public class ReadTagsPeriodicTrigger {
 
             System.out.println("Applying Settings");
             reader.applySettings(settings);
-
-            // FileWriter fw = new FileWriter(Properties.csvFilePath, true);
-            // PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
-
-            // pw.print("tagId");
-            // pw.print(",");
-            // pw.print("frequency");
-            // pw.print(",");
-            // pw.print("antennaNumber");
-            // pw.print(",");
-            // pw.print("timestamp");
-            // pw.print(",");
-            // pw.print("seenCount");
-            // pw.print(",");
-            // pw.print("rssi");
-            // pw.print(",");
-            // pw.print("phase");
-            // pw.print(",");
-            // pw.print("doppler");
-            // pw.print(",");
-            // pw.print("samplingNumber");
-            // pw.println();
-
-            // pw.close();
 
             // Start reading.
             System.out.println("Starting");

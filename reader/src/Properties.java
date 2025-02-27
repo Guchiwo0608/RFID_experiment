@@ -6,7 +6,7 @@ import java.util.Map;
  */
 public class Properties {
 
-    public static String hostname = "169.254.227.23";
+    public static String hostname = "169.254.1.1";
     // public static String targetTag = "E200421602D0641002BCE121";
     // public static String targetTag = "E20042160400641002BCE134";
     // public static String targetTag = "E200421604F0641002BCE143";
@@ -19,14 +19,15 @@ public class Properties {
     // "E20042160370641002BCE12B",
     // "E20042160200641002BCE114",
     // };
-    public static short[] antennaPortNumbers = { 1 };
-    public static String csvFilePath = "analysis/data/directional/data.csv";
+    public static short[] antennaPortNumbers = { 1, 2, 3 };
+    public static String csvFilePath = "analysis/data/tag-rotation/data.csv";
     public static int maxAntennas = 3;
-    public static int tagNumber = 4;
+    public static int tagNumber = 0;
     public static Map<String, Double> actualCoordinate = new HashMap<String, Double>() {
         {
-            put("x", -1.16);
-            put("y", 1.0);
+            put("x", 2.0);
+            put("y", 2.0);
         }
     };
+    public static Double x = -0.35;
 }
